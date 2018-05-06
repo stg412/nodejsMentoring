@@ -17,7 +17,6 @@ class DirWatcher {
                         if (curr.mtime !== prev.mtime) {
                             this.changes.emit('changed', fileName);
                             console.log('fileName: ', fileName);
-
                         }
                 })
             })

@@ -1,9 +1,9 @@
 export class User {
-    constructor() {
-
+    constructor(name) {
+        this.name = name;
     }
 
     logToConsole() {
-        console.log("user module")
+        console.log('user module: ' + this.name)
     }
 }

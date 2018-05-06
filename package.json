@@ -18,7 +18,9 @@
         "url": "https://github.com/stg412/nodejsMentoring/issues"
     },
     "homepage": "https://github.com/stg412/nodejsMentoring#readme",
-    "dependencies": {},
+    "dependencies": {
+        "csvtojson": "^1.1.9"
+    },
     "devDependencies": {
         "babel-cli": "^6.26.0",
         "babel-core": "^6.26.0",
