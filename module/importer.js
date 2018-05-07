@@ -19,10 +19,8 @@ class Importer {
 
     import (path) {
         return new Promise((resolve, reject) => {
-            fs.readFile(path, 'utf8', (err, data) => {
-                if (err) throw reject(err);
-                resolve(this.convertCsv(data))
-            })
+            console.log('path: ', path);
+            resolve(this.convertCsv(path))
         })
     }
 
@@ -34,11 +32,8 @@ class Importer {
 
     subscribe() {
         this.changes.on('changed', (fileName) => {
-            console.log(`the file ${fileName} was changed`);
+            console.log(`subscribe fileName: ${fileName}`);
             const fileData = this.import(fileName);
-            fileData.then((result) => {
-                console.log('subscribe ' + fileName + ' : ' + result);}
-            );
         })
     }
 

@@ -8,6 +8,7 @@ class DirWatcher {
     watch(path, delay) {
         console.log("Hello DirWatcher module");
         fs.readdir(path, (err, files) => {
+            console.log('files.length: ', files.length);
             files.forEach(file => {
                 const fileName = path + '/' + file;
                 fs.watchFile(
@@ -16,7 +17,7 @@ class DirWatcher {
                     (curr, prev) => {
                         if (curr.mtime !== prev.mtime) {
                             this.changes.emit('changed', fileName);
-                            console.log('fileName: ', fileName);
+                            // console.log('fileName: ', fileName);
                         }
                 })
             })
