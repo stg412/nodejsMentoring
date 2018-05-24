@@ -1,5 +1,6 @@
 const parseArgs = require('minimist');
 const through = require('through2');
+const fs = require('fs');
 
 const args = parseArgs(process.argv.slice(2), {
     string: ['action', 'file'],
@@ -57,8 +58,9 @@ transform  = () => {
     process.stdin.pipe(through(userInput)).pipe(process.stdout);
 }
 
-outputFile  = () => {
-
+outputFile  = (filePath) => {
+    fs.createReadStream(filePath.toString().substring(7)).pipe(process.stdout);
+    console.log(filePath)
 }
 
 convertFromFile = () => {
@@ -69,21 +71,23 @@ convertToFile = () => {
 
 }
 
+cssBundler  = () => {
+
+}
+
 cmdCallFunction = () => {
     const argv = process.argv;
     for (let i = 0; i < argv.length; i++) {
-        if (argv[i] === '--action=transform') {
-            transform();
-            console.log('transform: something cool happened');
-        }
         if (argv[i] === '--action=reverse') {
             reverse();
-            console.log('reverse: something cool happened');
         }
-        if (argv[i] === '--action=outputFile' && argv[i+1] === '--file=dataFile.csv') {
-            // some logic we need
-            showHelp(argsArray);
+        if (argv[i] === '--action=transform') {
+            transform();
+        }
+        if (argv[i] === '--action=outputFile' && argv[i+1].toString().substring(0, 7) === '--file=') {
+            outputFile(argv[i+1]);
             console.log('outputFile: something cool happened');
+            // add error help message
         }
         if (argv[i] === '--action=--help') {
             showHelp();
