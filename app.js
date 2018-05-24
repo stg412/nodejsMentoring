@@ -5,6 +5,7 @@ import config from './config/config.json';
 const DirWatcher = require('./module/dirwatcher');
 const Importer = require('./module/importer');
 const EventEmitter = require('events').EventEmitter;
+const stream = require('./utils/streams')
 
 const john = new User('john');
 const car = new Product();
@@ -22,4 +23,4 @@ myWatcher.watch('./data', 1000);
 // myImporter.convertCsv('./data/data2.csv');
 
 
-myImporter.subscribe(); 
+myImporter.subscribe();
