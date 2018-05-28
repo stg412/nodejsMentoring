@@ -1,6 +1,9 @@
 const parseArgs = require('minimist');
-const through = require('through2');
+const through2 = require('through2');
 const fs = require('fs');
+
+const Importer = require('../module/importer');
+const importer = new Importer();
 
 const args = parseArgs(process.argv.slice(2), {
     string: ['action', 'file'],
@@ -50,7 +53,7 @@ reverse = () => {
     process.stdin.pipe(through(userInput)).pipe(process.stdout);
 }
 
-transform  = () => {
+transform = () => {
     let userInput = function write(buffer, encoding, next) {
         this.push(buffer.toString().toUpperCase());
         next();
@@ -58,20 +61,34 @@ transform  = () => {
     process.stdin.pipe(through(userInput)).pipe(process.stdout);
 }
 
-outputFile  = (filePath) => {
+outputFile = (filePath) => {
     fs.createReadStream(filePath.toString().substring(7)).pipe(process.stdout);
     console.log(filePath)
 }
 
-convertFromFile = () => {
-
+convertFromFile = (filePath) => {
+    let trimmedFilePath = filePath.toString().substring(7);
+    console.log('trimmedFilePath: ', trimmedFilePath);
+    fs.createReadStream(trimmedFilePath)
+        .pipe(through2(function (chunk, enc, callback) {
+            this.push(importer.convertCsv(chunk));
+            callback()
+        }))
+        .pipe(process.stdout);
 }
 
-convertToFile = () => {
-
+convertToFile = (filePath) => {
+    let trimmedFilePath = filePath.toString().substring(7);
+    let outputPath = '../data/data2.json'; // add trim csv
+    fs.createReadStream(trimmedFilePath)
+    .pipe(through2(function (chunk, enc, callback) {
+        this.push(importer.convertCsv(chunk));
+        callback()
+    }))
+    .pipe(fs.createWriteStream(outputPath));
 }
 
-cssBundler  = () => {
+cssBundler = () => {
 
 }
 
@@ -84,9 +101,19 @@ cmdCallFunction = () => {
         if (argv[i] === '--action=transform') {
             transform();
         }
-        if (argv[i] === '--action=outputFile' && argv[i+1].toString().substring(0, 7) === '--file=') {
-            outputFile(argv[i+1]);
+        if (argv[i] === '--action=outputFile' && argv[i + 1].toString().substring(0, 7) === '--file=') {
+            outputFile(argv[i + 1]);
             console.log('outputFile: something cool happened');
+            // add error help message
+        }
+        if (argv[i] === '--action=convertFrom' && argv[i + 1].toString().substring(0, 7) === '--file=') {
+            convertFromFile(argv[i + 1]);
+            console.log('convertFrom: something cool happened');
+            // add error help message
+        }
+        if (argv[i] === '--action=convertTo' && argv[i + 1].toString().substring(0, 7) === '--file=') {
+            convertToFile(argv[i + 1]);
+            console.log('convertToFile: something cool happened');
             // add error help message
         }
         if (argv[i] === '--action=--help') {

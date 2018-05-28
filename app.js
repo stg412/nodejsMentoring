@@ -20,7 +20,7 @@ console.log(config.name);
 
 console.log("hello");
 myWatcher.watch('./data', 1000);
-// myImporter.convertCsv('./data/data2.csv');
+myImporter.convertCsv('./data/data2.csv');
 
 
 myImporter.subscribe();
