@@ -43,12 +43,14 @@ showHelp = (argsArray) => {
     }
 }
 
+showHelp(argsArray);
+
 reverse = () => {
     let userInput = function write(buffer, encoding, next) {
         this.push(buffer.toString().split("").reverse().join(""));
         next();
     };
-    process.stdin.pipe(through(userInput)).pipe(process.stdout);
+    process.stdin.pipe(through2(userInput)).pipe(process.stdout);
 }
 
 transform = () => {
@@ -56,7 +58,7 @@ transform = () => {
         this.push(buffer.toString().toUpperCase());
         next();
     };
-    process.stdin.pipe(through(userInput)).pipe(process.stdout);
+    process.stdin.pipe(through2(userInput)).pipe(process.stdout);
 }
 
 outputFile = (filePath) => {
