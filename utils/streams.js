@@ -43,8 +43,6 @@ showHelp = (argsArray) => {
     }
 }
 
-// showHelp(argsArray);
-
 reverse = () => {
     let userInput = function write(buffer, encoding, next) {
         this.push(buffer.toString().split("").reverse().join(""));
@@ -68,7 +66,6 @@ outputFile = (filePath) => {
 
 convertFromFile = (filePath) => {
     let trimmedFilePath = filePath.toString().substring(7);
-    console.log('trimmedFilePath: ', trimmedFilePath);
     fs.createReadStream(trimmedFilePath)
         .pipe(through2(function (chunk, enc, callback) {
             this.push(importer.convertCsv(chunk));
@@ -79,7 +76,7 @@ convertFromFile = (filePath) => {
 
 convertToFile = (filePath) => {
     let trimmedFilePath = filePath.toString().substring(7);
-    let outputPath = '../data/data2.json'; // add trim csv
+    let outputPath = trimmedFilePath.substring(0, trimmedFilePath.indexOf('csv')) + 'json';
     fs.createReadStream(trimmedFilePath)
     .pipe(through2(function (chunk, enc, callback) {
         this.push(importer.convertCsv(chunk));
