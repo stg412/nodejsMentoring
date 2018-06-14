@@ -36,11 +36,12 @@ showHelp = (argsArray) => {
     console.log('showHelp');
     if (argsArray.length > 0 && argsArray[0] === "help") {
         console.log("This is help message")
-    } else
-    if (argsArray.length === 1) {
-        console.log("Error: You need an argument");
-        process.exit(-1);
     }
+    // } else
+    // if (argsArray.length === 1) {
+    //     console.log("Error: You need an argument");
+    //     process.exit(-1);
+    // }
 }
 
 showHelp(argsArray);
